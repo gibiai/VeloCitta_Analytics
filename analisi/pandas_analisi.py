@@ -9,7 +9,7 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from giorno_1.demo import classifica_corsa
 
-# caricamento DataFrame pulidi da pandas_pulizia.py
+# caricamento DataFrame puliti da pandas_pulizia.py
 df_corse = pd.read_csv("output/df_corse_pulito.csv", parse_dates=["data_corsa"])
 df_bici = pd.read_csv("output/df_bici.csv")
 df_utenti = pd.read_csv("output/df_utenti.csv")
@@ -58,7 +58,7 @@ stats_città = df_corse.groupby("città").agg(
 print("\nStatistiche per città:")
 print(stats_città)
 
-# ── groupby per fascia oraria ─────────────────────────────────────────────────
+# groupby per fascia oraria
 stats_fascia = df_corse.groupby("fascia_oraria").agg(
     n_corse         = ("id_corsa",      "count"),
     velocita_media  = ("velocita_media", "mean"),
