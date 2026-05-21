@@ -27,7 +27,7 @@ ORDER BY c.data_corsa DESC;                    -- dalla corsa più recente alla 
 --
 -- Spiegazione:
 -- WHERE tipo = 'elettrica' filtra solo le bici elettriche.
--- GROUP BY citta raggruppa le righe per città — come groupby in Pandas.
+-- GROUP BY citta raggruppa le righe per città.
 -- COUNT(*) conta quante righe ci sono in ogni gruppo.
 -- ORDER BY COUNT(*) DESC ordina dal numero più alto al più basso.
 
@@ -44,8 +44,8 @@ ORDER BY n_bici_elettriche DESC;    -- dalla città con più bici a quella con m
 -- Durata media, massima e minima per tipo di bicicletta. (JOIN richiesto)
 --
 -- Spiegazione:
--- La tabella corse non ha il tipo di bici, ce l'ha la tabella biciclette.
--- Il JOIN unisce le due tabelle sull'id_bici comune, come pd.merge() in Pandas.
+-- La tabella corse non ha il tipo di bici, lo ha la tabella biciclette.
+-- Il JOIN unisce le due tabelle sull'id_bici comune.
 -- GROUP BY b.tipo raggruppa per tipo (classica / elettrica / cargo).
 -- AVG, MAX, MIN calcolano le statistiche su durata_minuti per ogni gruppo.
 
@@ -64,7 +64,7 @@ GROUP BY b.tipo;                               -- una riga per ogni tipo di bici
 -- Ordina per conteggio decrescente.
 --
 -- Spiegazione:
--- Contiamo gli arrivi raggruppando per stazione_arrivo.
+-- Conta gli arrivi raggruppando per stazione_arrivo.
 -- HAVING filtra i gruppi DOPO il GROUP BY, equivale a WHERE ma sui risultati aggregati.
 -- Non possiamo usare WHERE COUNT(*) > 50 perché WHERE viene applicato prima
 -- del GROUP BY, prima ancora che i conteggi esistano.
@@ -113,8 +113,8 @@ ORDER BY km_totali DESC;                     -- dal più attivo al meno attivo
 --
 -- COME FUNZIONA:
 -- Usa due LEFT JOIN sulla stessa tabella corse con due alias diversi:
---   c_in  → rappresenta le corse in ARRIVO (stazione_arrivo = nome stazione)
---   c_out → rappresenta le corse in PARTENZA (stazione_partenza = nome stazione)
+--   c_in  -> rappresenta le corse in ARRIVO (stazione_arrivo = nome stazione)
+--   c_out -> rappresenta le corse in PARTENZA (stazione_partenza = nome stazione)
 -- LEFT JOIN garantisce che ogni stazione appaia nel risultato anche se
 -- non ha arrivi o partenze, in quel caso COUNT restituisce 0.
 -- GROUP BY raggruppa per stazione e città.
@@ -122,11 +122,11 @@ ORDER BY km_totali DESC;                     -- dal più attivo al meno attivo
 --
 -- INFORMAZIONE DI BUSINESS:
 -- Il bilancio positivo indica stazioni dove le bici si accumulano
--- (più persone arrivano che partono), sono stazioni che rischiano di
+-- (più persone che arrivano piuttost che partono), sono stazioni che rischiano di
 -- saturarsi e richiedono redistribuzione delle bici verso altre stazioni.
 -- Il bilancio negativo indica stazioni che si svuotano, rischiano di
 -- rimanere senza bici disponibili.
--- Questa analisi è fondamentale per ottimizzare la distribuzione della flotta
+-- Analisi fondamentale per ottimizzare la distribuzione della flotta
 -- in un sistema di bike sharing.
 
 SELECT
