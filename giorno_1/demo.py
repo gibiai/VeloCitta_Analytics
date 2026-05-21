@@ -78,10 +78,7 @@ def riepilogo_corse(lista_durate: list) -> dict:
 # --------------- Test Manuale --------------  
 # eseguito SOLO SE lanciato direttamente: python3 demo.py
 
-if __name__ == "__main__":
-    print("TASK 1 - Funzioni di utilità VeloCittà")
-    print("-" * 40)
-    
+if __name__ == "__main__":    
 # test calcola_durata_minuti
 # Verifica il calcolo corretto della durata in minuti tra due orari validi
     print("\n--- calcola_durata_minuti ---")

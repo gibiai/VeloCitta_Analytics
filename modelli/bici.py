@@ -286,11 +286,7 @@ class FlottaBici:
     
 
 # --- TEST MANUALE ---
- 
-if __name__ == "__main__":
-    print("TASK 2 & 3 - OOP VeloCittà")
-    print("-" * 40)
- 
+if __name__ == "__main__": 
     # creazione di una bici per ogni tipo
     classica  = BiciclettaClassica("MI-001",  "Cadorna",  120.5, "M")
     elettrica = BiciclettaElettrica("MI-002", "Loreto",    80.0, 75)

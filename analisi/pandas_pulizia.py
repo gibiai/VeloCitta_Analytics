@@ -3,17 +3,20 @@
 
 import pandas as pd
 import numpy as np
-from giorno_1.demo import classifica_corsa  # importa la funzione già scritta
+import sys
+import os
+
+# aggiungiamo la root del progetto al path per importare da giorno_1
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from giorno_1.demo import classifica_corsa
 
 np.random.seed(42)
 pd.set_option("display.max_columns", None)  # mostra tutte le colonne nel print
 
 # 6.1 — CREAZIONE DATAFRAME
-print("TASK 6 — Pandas: Pulizia e Analisi")
-print("-" * 40)
 
 # dati di riferimento
-citta         = ["Milano", "Roma", "Torino"]
+città         = ["Milano", "Roma", "Torino"]
 fasce_orarie  = ["mattina", "pomeriggio", "sera", "notte"]
 tipi_bici     = ["classica", "elettrica"]
 abbonamenti   = ["Base", "Premium", "Family"]
@@ -26,7 +29,7 @@ n_corse = 85  # sopra il minimo richiesto
 id_corse      = [f"C{i:04d}" for i in range(1, n_corse + 1)]  # C0001, C0002...
 id_bici_corse = [f"B{np.random.randint(1, 21):03d}" for _ in range(n_corse)]
 id_utenti_c   = [f"U{np.random.randint(1, 26):03d}" for _ in range(n_corse)]
-citta_corse   = np.random.choice(citta, size=n_corse).tolist()
+città_corse   = np.random.choice(città, size=n_corse).tolist()
 date_corse    = np.random.choice(
     ["2026-03-01", "2026-03-15", "2026-04-10"], size=n_corse
 ).tolist()
@@ -38,7 +41,7 @@ df_corse = pd.DataFrame({
     "id_corsa":      id_corse,
     "id_bici":       id_bici_corse,
     "id_utente":     id_utenti_c,
-    "citta":         citta_corse,
+    "città":         città_corse,
     "data_corsa":    date_corse,
     "durata_minuti": durate_corse,
     "km_percorsi":   km_corse,
@@ -61,7 +64,7 @@ n_bici = 20
 df_bici = pd.DataFrame({
     "id_bici":        [f"B{i:03d}" for i in range(1, n_bici + 1)],
     "tipo":           np.random.choice(tipi_bici, size=n_bici).tolist(),
-    "citta":          np.random.choice(citta, size=n_bici).tolist(),
+    "città":          np.random.choice(città, size=n_bici).tolist(),
     "anno_acquisto":  np.random.randint(2018, 2025, size=n_bici).tolist(),
     "costo_acquisto": np.random.choice([800, 1200, 1500, 2000], size=n_bici).tolist(),
 })
@@ -75,7 +78,7 @@ nomi = ["Luca", "Sara", "Marco", "Giulia", "Anna", "Paolo", "Elena",
 df_utenti = pd.DataFrame({
     "id_utente":        [f"U{i:03d}" for i in range(1, 26)],
     "nome":             nomi,
-    "citta":            np.random.choice(citta, size=25).tolist(),
+    "città":            np.random.choice(città, size=25).tolist(),
     "tipo_abbonamento": np.random.choice(abbonamenti, size=25).tolist(),
     "data_iscrizione":  np.random.choice(
         ["2024-01-15", "2024-06-01", "2025-03-20"], size=25
@@ -115,7 +118,7 @@ print(df_corse.isnull().sum())
 # calcola la mediana per ogni gruppo ma
 # RESTITUISCE UN VALORE PER OGNI RIGA ORIGINALE (non riduce il DataFrame)
 df_corse["durata_minuti"] = df_corse["durata_minuti"].fillna(
-    df_corse.groupby("citta")["durata_minuti"].transform("median")
+    df_corse.groupby("città")["durata_minuti"].transform("median")
 )
 
 # km_percorsi NaN -> durata_minuti * 0.18

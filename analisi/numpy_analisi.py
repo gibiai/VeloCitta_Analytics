@@ -10,8 +10,6 @@ import numpy as np
 np.random.seed(42) # garantisce numeri casuali sempre gli stessi
 
 # 5.1 Generazione Dati
-print("TASK 5 - Analisi Numerica con NumPy")
-print("-" * 40)
 
 # durate
 # genera valori distribuzione normale
