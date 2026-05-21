@@ -47,8 +47,8 @@ VeloCitta_Analytics/
 
 **1. Clona il repository**
 ```bash
-git clone https://github.com/tuo-username/velocita-analytics.git
-cd velocita-analytics
+git clone https://github.com/gibiai/VeloCitta_Analytics.git
+cd VeloCitta_Analytics
 ```
 
 **2. Installa le dipendenze**
@@ -83,7 +83,7 @@ numpy>=1.24
 pandas>=2.0
 matplotlib>=3.7
 seaborn>=0.12
-pillow>=10.0
+pillow>=10.0 (gif)
 ```
 
 ---
