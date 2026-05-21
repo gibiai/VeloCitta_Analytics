@@ -8,9 +8,7 @@
 #   └── BiciclettaCargo     — aggiunge carico massimo (aggiunta a nostra scelta)
 #
 #   FlottaBici — gestisce la collezione di biciclette di una città
-#
-# from __future__ import annotations permette di usare "FlottaBici" come type hint
-# dentro la stessa classe prima che sia definita — senza questo Python darebbe errore
+
 from __future__ import annotations
 
 # CLASSE BASE: Bicicletta
@@ -48,11 +46,6 @@ class Bicicletta:
             
 # NOLEGGIO E RESTITUZIONE
 def noleggia(self, utente: str) -> str:
-    """
-    Segna la bici come in uso dall'utente indicato.
-    Aggiorna disponibile e utente_corrente.
-    Solleva ValueError se la bici è già in uso.
-    """
     if not self.disponibile:
         raise ValueError(
             f"Bici {self.id_bici} già in uso da '{self._utente_corrente}'"
@@ -62,11 +55,6 @@ def noleggia(self, utente: str) -> str:
     return f"Bici {self.id_bici} noleggiata a '{utente}' da {self.stazione_corrente}"
 
 def restituisci(self, stazione: str, km_aggiunta: float) -> None:
-    """
-    Registra la restituzione della bici.
-    Aggiorna la stazione corrente, aggiunge i km percorsi
-    e rimette la bici disponibile.
-    """
     self.stazione_corrente = stazione          # aggiorna posizione
     self.aggiungi_km(km_aggiunta)              # aggiunge km con validazione
     self.disponibile       = True              # torna disponibile
@@ -96,12 +84,6 @@ def __repr__(self) -> str:
 # SOTTOCLASSI
 # 1 Classica
 class BiciclettaClassica(Bicicletta):
-    """
-    Sottoclasse di Bicicletta per le bici classiche
-    Aggiunge l'attributo taglia (S / M / L)
-    Eredita TUTTO da Bicicletta: noleggio, restituzione, km ecc
-    Override solo di __str__ per includere la taglia
-    """
     # attributo di classe
     TAGLIE_VALIDE = ("S", "M", "L")
  
@@ -133,12 +115,6 @@ class BiciclettaClassica(Bicicletta):
  
  # 2 Elettrica
 class BiciclettaElettrica(Bicicletta):
-    """
-    Sottoclasse di Bicicletta per le bici elettriche
-    Aggiunge batteria_percentuale (0-100)
-    Override di noleggia() per bloccare il noleggio sotto 20% di batteria
-    Override di __str__ per mostrare il livello batteria
-    """
     # soglia minima di batteria per permettere il noleggio
     # attributo di classe — condiviso da tutte le istanze
     BATTERIA_MINIMA_NOLEGGIO = 20
@@ -159,12 +135,6 @@ class BiciclettaElettrica(Bicicletta):
         self.batteria_percentuale = batteria_percentuale
  
     def ricarica(self, percentuale: int) -> None:
-        """
-        Ricarica la batteria della bici elettrica
-        Non supera mai il 100% grazie a min()
-        min(100, valore) restituisce sempre il più piccolo dei due:
-        se valore > 100 restituisce 100, altrimenti restituisce valore
-        """
         if percentuale <= 0:
             raise ValueError("La percentuale di ricarica deve essere positiva")
         # min() garantisce che non superiamo mai 100
@@ -172,13 +142,6 @@ class BiciclettaElettrica(Bicicletta):
         self.batteria_percentuale = min(100, self.batteria_percentuale + percentuale)
     
         def noleggia(self, utente: str) -> str:
-            """
-            Override di noleggia() — aggiunge il controllo batteria.
-            Se la batteria è sotto la soglia minima, blocca il noleggio.
-            Se è ok, chiama super().noleggia() che fa il resto.
-            stessa chiamata bici.noleggia("utente") ma comportamento diverso
-            a seconda del tipo reale della bici.
-            """
             # controllo specifico per le bici elettriche
             if self.batteria_percentuale < self.BATTERIA_MINIMA_NOLEGGIO:
                 raise ValueError(
@@ -201,11 +164,6 @@ class BiciclettaElettrica(Bicicletta):
  
 # 3 BiciclettaCargo 
 class BiciclettaCargo(Bicicletta):
-    """
-    Bicicletta cargo per il trasporto merci
-    Aggiunge carico_massimo_kg e verifica il peso prima del noleggio
-    Dimostra che possiamo aggiungere parametri extra anche a noleggia()
-    """
     def __init__(
         self,
         id_bici: str,
@@ -221,10 +179,6 @@ class BiciclettaCargo(Bicicletta):
         self.carico_massimo_kg = carico_massimo_kg
  
     def noleggia(self, utente: str, peso_carico_kg: float = 0) -> str:
-        """
-        Override di noleggia() con parametro extra peso_carico_kg.
-        peso_carico_kg = 0 è il valore di default — se non specificato assume 0.
-        """
         # verifica che il carico richiesto non superi il massimo
         if peso_carico_kg > self.carico_massimo_kg:
             raise ValueError(
@@ -242,12 +196,7 @@ class BiciclettaCargo(Bicicletta):
             f"{stato}"
         )
 
-# Poliformismo
 def stampa_flotta(biciclette: list) -> None:
-    """
-    Dimostra il polimorfismo: applica la stessa operazione
-    a oggetti di tipo diverso senza controllare esplicitamente il tipo
-    """ 
     print("\n--- Flotta completa (polimorfismo) ---")
     for bici in biciclette:
         # print(bici) chiama __str__ automaticamente
@@ -257,11 +206,6 @@ def stampa_flotta(biciclette: list) -> None:
 
 # Classe Flottabici
 class FlottaBici:
-    """
-    Dataset che gestisce la collezione di biciclette di una città.
-    Pattern Dataset: contiene una lista di oggetti e offre metodi
-    per aggiungerli, rimuoverli, cercarli e fare statistiche.
-    """ 
     def __init__(self, citta: str) -> None:
         self.citta = citta
         # list[Bicicletta] è un type hint avanzato che dice:
@@ -270,41 +214,22 @@ class FlottaBici:
 
     # CRUD: aggiungi, rimuovi, cerca
     def aggiungi(self, bici: Bicicletta) -> None:
-        """Aggiunge una bicicletta alla flotta."""
         self.biciclette.append(bici)   # append aggiunge in fondo alla lista
  
     def rimuovi(self, id_bici: str) -> None:
-        """
-        Rimuove una bicicletta tramite id.
-        Usa cerca_per_id() che già solleva KeyError se non trovata.
-        """
         bici = self.cerca_per_id(id_bici)   # trova la bici — KeyError se manca
         self.biciclette.remove(bici)         # remove rimuove l'oggetto dalla lista
  
     def cerca_per_id(self, id_bici: str) -> Bicicletta:
-        """
-        Cerca una bici tramite id e la restituisce.
-        Solleva KeyError se non trovata.
-        """
         risultati = [b for b in self.biciclette if b.id_bici == id_bici]
         if not risultati:   # lista vuota → nessuna bici trovata
             raise KeyError(f"Bicicletta con id '{id_bici}' non trovata nella flotta")
         return risultati[0]   # [0] prende il primo (e unico) elemento trovato
     
     def disponibili(self) -> list:
-        """
-        Restituisce la lista delle bici disponibili al noleggio.
-        List comprehension con condizione booleana:
-        tiene solo le bici dove disponibile == True.
-        """
         return [b for b in self.biciclette if b.disponibile]
  
     def statistiche(self) -> dict:
-        """
-        Calcola statistiche generali sulla flotta.
-        Restituisce un dizionario con totale, disponibili, in_uso,
-        km_totali_flotta e km_medi_per_bici.
-        """
         totale   = len(self.biciclette)             # numero totale bici
         n_disp   = len(self.disponibili())           # numero bici disponibili
         # sum(b.km_percorsi for b in self.biciclette)
@@ -322,12 +247,6 @@ class FlottaBici:
         
     @classmethod
     def da_lista(cls, citta: str, dati: list) -> "FlottaBici":
-        """
-        Costruisce una FlottaBici da una lista di dizionari.
-        Ogni dizionario deve avere: id, tipo, stazione, km.
-        Chiavi opzionali: taglia (classica), batteria (elettrica), carico_max (cargo).
-        cls è la classe stessa — cls(citta) equivale a FlottaBici(citta).
-        """
         flotta = cls(citta)   # crea una nuova istanza vuota della classe
  
         for d in dati:
@@ -360,10 +279,6 @@ class FlottaBici:
     
     # metodi speciali
     def __len__(self) -> int:
-        """
-        Permette di usare len(flotta) invece di len(flotta.biciclette).
-        Python chiama __len__ automaticamente quando scrivi len(oggetto).
-        """
         return len(self.biciclette)
  
     def __str__(self) -> str:
@@ -373,9 +288,8 @@ class FlottaBici:
 # --- TEST MANUALE ---
  
 if __name__ == "__main__":
-    print("=" * 50)
-    print("TASK 2+3 — OOP VeloCittà")
-    print("=" * 50)
+    print("TASK 2 & 3 - OOP VeloCittà")
+    print("-" * 40)
  
     # creazione di una bici per ogni tipo
     classica  = BiciclettaClassica("MI-001",  "Cadorna",  120.5, "M")

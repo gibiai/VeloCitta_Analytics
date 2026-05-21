@@ -5,10 +5,6 @@
 # riepilogo_corse: calcola statistiche su una lista di durate
 
 def calcola_durata_minuti(ora_inizio: str, ora_fine: str) -> int:
-    """
-    Riceve due orari in formato "HH:MM" e restituisce la differenza in minuti.
-    Esempio: calcola_durata_minuti("08:00", "08:45") → 45
-    """
     # Step 1: separare ore e minuti dalla stringa
     # map applica int() a ogni elemento lista
     # try/except cattura due errori: se str non convertibile int
@@ -49,12 +45,6 @@ def calcola_durata_minuti(ora_inizio: str, ora_fine: str) -> int:
     return totale_fine - totale_inizio
 
 def classifica_corsa(durata_minuti: int) -> str:
-    """
-    Riceve una durata in minuti e restituisce la categoria della corsa.
-    - "breve"  → meno di 15 minuti
-    - "media"  → tra 15 e 45 minuti (inclusi)
-    - "lunga"  → più di 45 minuti
-    """
     if durata_minuti < 15:
         return "breve" # meno di 15 min -> breve
     elif durata_minuti <= 45:
@@ -63,13 +53,6 @@ def classifica_corsa(durata_minuti: int) -> str:
         return "lunga" # tutto il resto (> 45 min) -> lunga
     
 def riepilogo_corse(lista_durate: list) -> dict:
-    """
-    Riceve una lista di durate in minuti e restituisce un dizionario
-    con le statistiche principali.
- 
-    Esempio input:  [10, 20, 30, 50, 8, 45, 60, 15, 5, 35]
-    Esempio output: {'totale': 10, 'media': 27.8, 'max': 60, ...}
-    """
     # Se lista vuota non possiamo calcolare media, max, min → errore
     if not lista_durate:
         raise ValueError("la lista delle durate non può essere vuota!")
@@ -97,7 +80,7 @@ def riepilogo_corse(lista_durate: list) -> dict:
 
 if __name__ == "__main__":
     print("TASK 1 - Funzioni di utilità VeloCittà")
-    print("-" * 45)
+    print("-" * 40)
     
 # test calcola_durata_minuti
 # Verifica il calcolo corretto della durata in minuti tra due orari validi
