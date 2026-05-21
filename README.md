@@ -162,8 +162,6 @@ pillow>=10.0
 
 ## Considerazioni
 
-## Considerazioni
-
 **Cosa ho trovato difficile:** Coordinare i diversi moduli del progetto
 (creazione dati → pulizia → analisi → grafici) senza che si sovrascrivessero
 a vicenda. Ho dovuto ripensare l'ordine di esecuzione più volte, finché non
@@ -188,6 +186,7 @@ stazioni: stazioni con bilancio positivo accumulano bici e rischiano di
 saturarsi. È un problema che vedo nel quotidiano, quando mi capita di usare Gira qui a Lisbona, dove le stazioni vicino al centro storico e ai miradouros si svuotano in fretta
 mentre quelle in salita si riempiono. Un sistema di alert automatico per gli
 operatori potrebbe risolvere esattamente questo!
+
 ---
 
 ## Autore
