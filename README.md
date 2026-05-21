@@ -162,16 +162,15 @@ pillow>=10.0
 
 ## Considerazioni
 
-**Cosa ho trovato difficile:** Coordinare i diversi moduli del progetto
-(creazione dati → pulizia → analisi → grafici) senza che si sovrascrivessero
-a vicenda. Ho dovuto ripensare l'ordine di esecuzione più volte, finché non
-ho capito che `main.py` doveva lanciare gli script come processi separati con
-`subprocess.run` invece di importarli come moduli, altrimenti i percorsi
-relativi si "rompevano". Anche la struttura delle classi in `bici.py` mi ha
-dato molto filo da torcere. Infine, la media mobile
-in NumPy: ho scelto di implementarla con un ciclo `for` e lo slicing invece
-di `np.convolve`, perché volevo essere sicuro di capire cosa stava calcolando
-prima di usare una funzione più astratta.
+**Cosa ho trovato difficile:** Strutturare il progetto in moduli separati mantenendo un flusso dati coerente: ogni scriptt
+doveva trovare i file necessari, salvare output e passare al controllo successivo. Ho cercato 
+come gestire questa cosa e ho visto che la soluzione al problema era una gestione tramite `subprocess.run` per lanciare
+gli script come processi separati invece che importarli come moduli, altrimenti i percorsi relativi si "rompevano". 
+Anche la struttura delle classi in `bici.py` mi ha dato un pò di filo da torcere.
+In Pandas, il `merge` tra tre tabelle con colonne omonime (es. `città` in corse, bici e utenti)
+mi ha costretto a usare `suffixes` per evitare confusione nei nomi.
+Infine, la media mobile in NumPy: ho scelto di implementarla con un ciclo `for` e lo slicing invece
+di `np.convolve`, perché volevo essere sicuro di capire cosa stava calcolando prima di usare una funzione più astratta.
 
 **Cosa migliorerei:** Aggiungere test automatici con `pytest` invece dei test
 manuali con `print`. Usare dati reali tipo da API open data dei comuni, per esempio. Inoltre,
